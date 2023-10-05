@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Transcriptor de Recetas</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='img/logoIcono.png') }}">
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='jquery-ui-1.13.2.custom/jquery-ui.css') }}">
+	 <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Transcritor de Recetas</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+      <!-- style css -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+      <!-- fevicon -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='img/logoIcono.png') }}">
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mCustomScrollbar.min.css') }}">
+      <!-- Tweaks for older IEs-->
+
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+</head>
+<body>
+	<header>
+             <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="{{ url_for('static', filename='images/loading.gif') }}" alt="#" /></div>
+      </div>
+		         <!-- header inner -->
+         <div class="header">
+            <div class="container">
+               <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                     <div class="full">
+                        <div class="center-desk">
+                           <div class="procesando">
+                              <a href="/index.html"><img src="{{ url_for('static', filename='images/loading.gif') }}" alt="#" /></a>
+                           </div>
+							<div class="logo">
+								<img src="{{ url_for('static', filename='images/logo.png') }}" width="70" height="70"alt="#">
+							</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                     <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarsExample04">
+                           <ul class="navbar-nav mr-auto">
+                              <li class="nav-item">
+                                 <a class="nav-link" href="/">Inicio </a>
+                              </li>
+                               <li class="nav-item">
+                                 <a class="nav-link" href="/formulario">Cargar Recetas</a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" href="/listRecetas">Recetas</a>
+                              </li>
+
+                           </ul>
+                           <div class="Call"><a href="/acerca"> <span class="yellow">A cerca de</span></a></div>
+                        </div>
+                     </nav>
+                  </div>
+               </div>
+            </div>
+			 <div class="titlepage">
+				<h2>Sistema Transcritor de Recetas</h2>
+			</div>
+         </div>
+      </header>
+
+	<main>
+		<section>
+			<h2 class="cont">Recetas</h2>
+            <div class="container">
+			<table id="myTable" border ="0" class="main_form" >
+            {% for ttl in headings %}
+                <td><center><b> {{ ttl }} </b></center></td>
+            {% endfor %}
+            {% for row  in dict %}
+            <tr>
+                <div class="food">
+                    <div class="works_box">
+				<td style="width:40%;">
+                    <div class="imga">
+                    <center><a href="/recetaEdit/{{row}}" class="nav-item nav-link"><img src="{{dict[row]['img']}}" /></a></center>
+                    </div>
+                </td>
+                <td> <center><a href="/recetaEdit/{{row}}" class="nav-item nav-link"> <p class="p">{{ dict[row]['nombre'] }}</p></a> </center> </td>
+
+
+				<td><left><ul>
+					 {% for ing in  dict[row]['ingredientes']   %}
+					<li class="colorYellow">{{ing}}</li>
+					 {% endfor %}
+				</ul>
+				</left></td>
+                </div>
+                    </div>
+
+            </tr>
+            {% endfor %}
+
+         </table>
+                </div>
+	</main>
+ <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/jquery-3.0.0.min.js') }}"></script>
+
+	<script>
+		  $('.loader_bg').hide();
+		  $('.procesando').hide();
+	</script>
+
+<script>
+</body>
+</html>
