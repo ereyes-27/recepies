@@ -33,12 +33,13 @@ Librerias a instalar (pip install):
 Configuración extra:
     
     ffmpeg - Instalar directamente en Windows. https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/
-    Open AI - Crear cuenta de Open AI y generar API Key. Copiarla en Extractor.py - openai.api_key
+    Open AI - Crear cuenta de Open AI y generar API Key. Copiarla en tu nuevo archivo config/development.ini similar a config/production.ini
     MongoDB - Instalar y configurar mongoclient https://www.mongodb.com/try/download/community 
     Whisper - Posible error "numba warning". Configurar https://github.com/openai/whisper/discussions/1344
 
 ## Ejecutar
 
+    Para pruebas locales agrega un archivo development.ini en config/ con tus credenciales
     En IntelliJ seleccionar main.py y Ejecutar.
     Ir a un navegador local y abrir http://localhost:5001/
 
@@ -62,7 +63,7 @@ Configuración extra:
     FFmpeg error. https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/
     Error Code 429 - You exceeded your current quota... https://help.openai.com/en/articles/6891831-error-code-429-you-exceeded-your-current-quota-please-check-your-plan-and-billing-details
     Connect MongoClient https://kb.objectrocket.com/mongo-db/python-mongoclient-examples-1050 , https://www.mongodb.com/docs/manual/faq/fundamentals/?utm_source=compass&utm_medium=product#how-do-i-create-a-database-and-a-collection-
-    Error al extraer la receta Incorrect API key provided - Crear cuenta de Open AI y generar API Key. Copiarla en Extractor.py - openai.api_key
+    Error al extraer la receta Incorrect API key provided - Crear cuenta de Open AI y generar API Key. Copiarla en tu nuevo archivo config/development.ini similar a config/production.ini
 
 ## Mejoras en version 2
     

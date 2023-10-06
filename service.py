@@ -1,18 +1,17 @@
 import sys, os
 from RecetaDAO import RecetaDAO
 from RecetaMapper import *
-
 from YouTubeUtil import YouTubeUtil
 from WhisperUtil import WhisperUtil
 from Extractor import Extractor
 from ImgUtil import ExtractImg
 from CleanerUtil import CleanerUtil
+
 youTubeUtil = YouTubeUtil()
 whisperUtil = WhisperUtil()
 extractor = Extractor()
 imgExtractor = ExtractImg()
 cleanerUtil = CleanerUtil()
-
 
 class Service:
 
@@ -23,10 +22,10 @@ class Service:
       print("Servicio inicializado")
       self.dao = RecetaDAO()
       self.mapper = recetaMapper()
+
    def insertarService(self, recetaForm):
       print("clase service")
       print("invocando mapper "+recetaForm['nombre'])
-
       recetaDTO = self.mapper.map(recetaForm)
       print("invocando DAO insert")
       self.dao.insert(recetaDTO.getRecetaJson())
@@ -66,6 +65,7 @@ class Service:
       #   return(False,"El video es muy largo, por el momento no se puede procesar")
 
       nomImagen = imgExtractor.extraerImgFromMp4(file)
+
       print(texto)
       #ingredientes = extractor.extraeIngredientes(texto)
       #Consulta a chatgpt y formatea a json
@@ -74,7 +74,7 @@ class Service:
          self.insertarReceta(JSON)
       except Exception as err:
          print(f"Error al extraer la receta {str(err)}")
-         return(False, "El video parese ser muy largo, intente con otro.")
+         return(False, "El video parece ser muy largo, intente con otro.")
 
       return (True,"")
 

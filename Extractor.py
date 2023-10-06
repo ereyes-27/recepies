@@ -3,9 +3,10 @@ import openai
 #import datetime
 import json
 from Extractor_davinci03 import Extractor_Davinci
+from config import config_parser
 
 class Extractor:
-    openai.api_key = "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"
+    openai.api_key = config_parser.get_open_ai_key()
     davinci = Extractor_Davinci()
 
     # Función para llamar a la API de ChatGPT
