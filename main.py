@@ -1,8 +1,4 @@
-import json
-
 from flask import Flask, render_template, request
-from pymongo import MongoClient
-from pprint import pprint
 from service import Service
 
 

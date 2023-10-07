@@ -1,14 +1,18 @@
+import certifi
 from bson.objectid import ObjectId
 from pymongo import MongoClient
+from config import config_parser
 
 class RecetaDAO:
-   client = MongoClient(host="localhost", port=27017)
+
+   #local db
+   #client = MongoClient(host="localhost", port=27017)
+   #cloud db
+   client = MongoClient(config_parser.get_mongo_cloud_conn(), tlsCAFile=certifi.where())
 
    def insert(self, receta):
       try:
          print(f"Insertando receta en DAO: {receta}")
-         #client = MongoClient(host="localhost", port=27017)
-         #print("se obtubo instancia de mongo client")
          db =  self.client.recetas
          recetasCollection = db.Recetas
 
