@@ -69,6 +69,7 @@ Configuración extra:
     Connect MongoClient https://kb.objectrocket.com/mongo-db/python-mongoclient-examples-1050 , https://www.mongodb.com/docs/manual/faq/fundamentals/?utm_source=compass&utm_medium=product#how-do-i-create-a-database-and-a-collection-
     Error al extraer la receta Incorrect API key provided - Crear cuenta de Open AI y generar API Key. Copiarla en tu nuevo archivo config/development.ini similar a config/production.ini
     pymongo.errors.ServerSelectionTimeoutError: xxxx-shard-00-02.xxxxxx.mongodb.net:00000: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed -  https://www.mongodb.com/community/forums/t/serverselectiontimeouterror-ssl-certificate-verify-failed-trying-to-understand-the-origin-of-the-problem/115288/2
+
 ## Mejoras en version 2
     
     Crea Github Repo para trazabilidad y mejor manejor de código

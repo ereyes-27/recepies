@@ -26,7 +26,7 @@ class Extractor:
     """
     obtiene el json a partir de la receta de texto
     """
-    def getJSonFromReceta(self, texto, nomImagen):
+    def getJSonFromReceta(self, origen, texto, nomImagen):
         # Lista de prompts para ChatGPT
         prompts = [
             "Infiere en español el nombre de Receta, retorna unicamente en formato JSON válido, retorna la estructura: RecetaNombre:? del texto:" + texto,
@@ -127,10 +127,6 @@ class Extractor:
                 except Exception as e:
                     print("Error al extraer los pasos "+ str(e))
 
-        #print("________________variables finales_________________")
-        #print(f"Nombre de la receta: {jsonNombre}")
-        #print(f"Ingredientes: {jsonIngredientes}")
-        #print(f"Pasos: {pasos}")
-        dataDB = {"nombre": jsonNombre, "pasos": pasos, "ingredientes": jsonIngredientes, 'img': nomImagen}
+        dataDB = {"origen": origen, "nombre": jsonNombre, "pasos": pasos, "ingredientes": jsonIngredientes, 'img': nomImagen}
         return dataDB
 

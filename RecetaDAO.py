@@ -3,65 +3,36 @@ from bson.objectid import ObjectId
 from pymongo import MongoClient
 from config import config_parser
 
+
 class RecetaDAO:
 
-   #local db
-   #client = MongoClient(host="localhost", port=27017)
-   #cloud db
-   client = MongoClient(config_parser.get_mongo_cloud_conn(), tlsCAFile=certifi.where())
+    #client = MongoClient(host="localhost", port=27017)
+    client = MongoClient(config_parser.get_mongo_cloud_conn(), tlsCAFile=certifi.where())
+    db = client.recetas
+    recetas = db.Recetas
 
-   def insert(self, receta):
-      try:
-         print(f"Insertando receta en DAO: {receta}")
-         db =  self.client.recetas
-         recetasCollection = db.Recetas
+    def insert(self, receta):
+        try:
+            print(f"Insertando receta en DAO: {receta}")
+            self.recetas.insert_one(receta)
+        except Exception as error:
+            print(f"Error insertando: {error[0]}")
 
-         recetasCollection.insert_one(receta)
+    def find_all(self):
+        try:
+            print(f"findAll recetas en DAO")
+            result = self.recetas.find()
+            return result
+        except Exception as error:
+            print(f"Error insertando: {error[0]}")
 
-         #print('insertado: '+receta['nombre'])
+    def get_by_id(self, receta_id):
+        return self.recetas.find_one({'_id': ObjectId(receta_id)})
 
-      except Exception as error:
-        print(f"Error insertando: {error[0]}")
+    def get_by_origen(self, origen):
+        return self.recetas.find_one({'origen': origen})
 
-
-   def findAll(self):
-      try:
-         print(f"findAll recetas en DAO")
-         #print("se obtuvo instancia de mongo client")
-         db =  self.client.recetas
-         recetasCollection = db.Recetas
-
-         result = recetasCollection.find()
-
-         return result
-
-      except Exception as error:
-        print(f"Error insertando: {error[0]}")
-           
-   def getById(self, id):
-      db = self.client.recetas
-      recetasCollection = db.Recetas
-      queryresult = recetasCollection.find_one({'_id': ObjectId(id)})
-      #print("Query Result:")
-      #print(queryresult)
-      return queryresult
-
-   def updateReceta(self, id, new_receta):
-      db = self.client.recetas
-      recetasCollection = db.Recetas
-      entry_status = recetasCollection.update_one(id, new_receta)
-      print("Resultado del update en DAO ", entry_status)
-       
-
-#if __name__ == '__main__':
-#   print("running dao")
-   #recetaDAO = RecetaDAO()
-   #recetaDAO.getById('64251143196bb6f1be3136de')
-
-   #receta = {'_id':'Recetas",
-   #          'nombre':'recetaTest'
-   #         }
-   #recetaDAO.insert(receta)
-
-
+    def update_receta(self, receta_id, new_receta):
+        entry_status = self.recetas.update_one(receta_id, new_receta)
+        print("Resultado del update en DAO ", entry_status)
 

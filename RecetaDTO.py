@@ -1,5 +1,6 @@
 class RecetaDTO:
     id = 0
+    origen = ""
     nombre = ""
     imagen = ""
     costo = None
