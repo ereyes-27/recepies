@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 from service import Service
 
 
@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    #print("Probando servicios")
     return render_template('index.html')
 
 @app.route('/formulario')
@@ -22,7 +21,7 @@ def procesarReceta():
        form = request.form
        url = form['url']
        print("Descargar video de URL o file: "+url)
-       resp = service.procesar_video(url)
+       resp = service.procesarVideo(url)
 
        if resp[0]:
            print("listar recetas")
@@ -37,7 +36,7 @@ def procesarReceta():
 @app.route('/listRecetas', methods=['POST', 'GET'])
 def listRecetas():
    print("__________Listado de recetas _________")
-   result = service.find_all()
+   result = service.findAll()
    mod_dict = {}
    tl = ['  ', '  Receta  ', 'Ingredientes']
 
@@ -86,7 +85,7 @@ def listRecetas():
 def recetaEdit(id):
 
     #result = request.form
-    result = service.find_by_id(id)
+    result = service.findById(id)
 
 
     ingredientes = result['ingredientes']
@@ -118,12 +117,23 @@ def recetaUpdate():
         #print("imprimiendo el Form de update")
         #print(form)
 
-        res = service.update_receta(form)
+        res = service.updateReceta(form)
         if res is False:
             msg = "Hubo un problema al actualizar los datos."
-        
-    
+
     return render_template('updateResult.html', msg = msg)
+
+
+@app.route('/exportarExcel', methods=['GET'])
+def exportarEx():
+    id = request.args.get("id")
+    json = service.findById(id)
+
+    excel = service.exportarExcel(json)
+    output = make_response(excel.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=receta.xlsx"
+    output.headers["Content-Type"] = "application/octet-stream"
+    return output
 
 @app.route('/acerca', methods=['GET'])
 def acerca():
@@ -135,7 +145,7 @@ def upload():
         f = request.files['file']
         fileName = "videos/"+f.filename
         f.save(fileName)
-        resp = service.procesar_video_file(fileName)
+        resp = service.procesarVideoFile(fileName)
         if resp[0]:
             print("listar recetas")
             return listRecetas()

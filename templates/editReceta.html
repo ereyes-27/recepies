@@ -31,7 +31,30 @@
 
       <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <script>
+        function exportarExcel(id) {
+            var url = "/exportarExcel?id=" + id;
 
+            //Create XMLHTTP Request.
+            var req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "blob";
+            req.onload = function (e) {
+                var blob = e.currentTarget.response;
+                var contentDispo = e.currentTarget.getResponseHeader('Content-Disposition');
+                // https://stackoverflow.com/a/23054920/
+                var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
+                saveBlob(blob, fileName);
+            };
+            req.send();
+        }
+        function saveBlob(blob, fileName) {
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(blob);
+            a.download = fileName;
+            a.dispatchEvent(new MouseEvent('click'));
+        }
+    </script>
 </head>
 <body>
 	<header>
@@ -124,11 +147,14 @@
 				 {% endfor %}
                  </div>
                  <br/>
-                 <div>
-
-           <button type="submit" value="Actualizar" class="sub_btn" id="update">Actualizar Receta</button>
-
-                 </div>
+             <div class="row">
+                <div class="col-md-10 col-md-offset-10 text-center">
+                    <div class="btn-group d-flex w-100" role="group">
+                        <button type="submit" value="Actualizar" class="sub_btn"  id="update">Actualizar Receta</button>
+                        <button type="button" value="Exportar" class="sub_btn"  id="exportar" onclick="exportarExcel('{{ id }}')">Exportar Excel</button>
+                    </div>
+                </div>
+             </div>
          </fieldset>
 			</div>
 			</form>
