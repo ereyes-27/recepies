@@ -21,7 +21,7 @@ def procesarReceta():
        form = request.form
        url = form['url']
        print("Descargar video de URL o file: "+url)
-       resp = service.procesarVideo(url)
+       resp = service.procesar_video(url)
 
        if resp[0]:
            print("listar recetas")
@@ -36,7 +36,7 @@ def procesarReceta():
 @app.route('/listRecetas', methods=['POST', 'GET'])
 def listRecetas():
    print("__________Listado de recetas _________")
-   result = service.findAll()
+   result = service.find_all()
    mod_dict = {}
    tl = ['  ', '  Receta  ', 'Ingredientes']
 
@@ -85,7 +85,7 @@ def listRecetas():
 def recetaEdit(id):
 
     #result = request.form
-    result = service.findById(id)
+    result = service.find_by_id(id)
 
 
     ingredientes = result['ingredientes']
@@ -117,7 +117,7 @@ def recetaUpdate():
         #print("imprimiendo el Form de update")
         #print(form)
 
-        res = service.updateReceta(form)
+        res = service.update_receta(form)
         if res is False:
             msg = "Hubo un problema al actualizar los datos."
 
@@ -127,9 +127,9 @@ def recetaUpdate():
 @app.route('/exportarExcel', methods=['GET'])
 def exportarEx():
     id = request.args.get("id")
-    json = service.findById(id)
+    json = service.find_by_id(id)
 
-    excel = service.exportarExcel(json)
+    excel = service.exporta_a_excel(json)
     output = make_response(excel.getvalue())
     output.headers["Content-Disposition"] = "attachment; filename=receta.xlsx"
     output.headers["Content-Type"] = "application/octet-stream"
@@ -145,7 +145,7 @@ def upload():
         f = request.files['file']
         fileName = "videos/"+f.filename
         f.save(fileName)
-        resp = service.procesarVideoFile(fileName)
+        resp = service.procesar_video_file(fileName)
         if resp[0]:
             print("listar recetas")
             return listRecetas()

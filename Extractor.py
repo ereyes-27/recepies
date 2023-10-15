@@ -127,6 +127,11 @@ class Extractor:
                 except Exception as e:
                     print("Error al extraer los pasos "+ str(e))
 
-        dataDB = {"origen": origen, "nombre": jsonNombre, "pasos": pasos, "ingredientes": jsonIngredientes, 'img': nomImagen}
+        dataDB = {"origen": origen,
+                  "nombre": jsonNombre,
+                  "pasos": pasos,
+                  "ingredientes": jsonIngredientes,
+                  'img': nomImagen,
+                  'texto': texto}
         return dataDB
 

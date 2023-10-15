@@ -30,6 +30,8 @@ Librerias a instalar (pip install):
     flask
     opencv-python
     waitress
+    pandas
+    openpyxl
 
 Configuración extra:
     

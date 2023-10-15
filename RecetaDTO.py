@@ -6,12 +6,9 @@ class RecetaDTO:
     costo = None
     calorias = None
     ingredientes = None
+    texto = ""
 
-    def getRecetaJson(self):
+    def get_receta_json(self):
         return {
             'nombre':self.nombre
-        }
-    def getRecetaFromForm(self, form):
-        return {
-
         }
