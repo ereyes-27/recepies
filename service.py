@@ -78,16 +78,16 @@ class Service:
       try:
          JSON = extractor.getJSonFromReceta(url, texto, nomImagen)
          self.inserta_receta(JSON)
-         self.exporta_a_excel(JSON)
+         self.exporta_a_excel(JSON, False)
       except Exception as err:
          print(f"Error al extraer la receta {str(err)}")
          return(False, "El video parese ser muy largo, intente con otro.")
 
       return (True,"")
 
-   def exporta_a_excel(self, json):
+   def exporta_a_excel(self, json, multiple=True):
       #aqui se exporta a excel
-      excel_json = self.procesa_json_para_excel(json)
+      excel_json = json if multiple else self.procesa_json_para_excel(json)
       exportar = pd.DataFrame(excel_json)
       buffer = io.BytesIO()
       exportar.to_excel(buffer, index=False)

@@ -129,7 +129,7 @@ def exportarEx():
     id = request.args.get("id")
     json = service.find_by_id(id)
 
-    excel = service.exporta_a_excel(json)
+    excel = service.exporta_a_excel(json, False)
     output = make_response(excel.getvalue())
     output.headers["Content-Disposition"] = "attachment; filename=receta.xlsx"
     output.headers["Content-Type"] = "application/octet-stream"
@@ -137,9 +137,9 @@ def exportarEx():
 
 @app.route('/exportar', methods=['GET'])
 def exportar():
-    json = service.findAll()
+    json = service.find_all()
 
-    excel = service.exportarExcel(json)
+    excel = service.exporta_a_excel(json)
     output = make_response(excel.getvalue())
     output.headers["Content-Disposition"] = "attachment; filename=recetas.xlsx"
     output.headers["Content-Type"] = "application/octet-stream"

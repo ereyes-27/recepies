@@ -6,8 +6,8 @@ from config import config_parser
 
 class RecetaDAO:
 
-    #client = MongoClient(host="localhost", port=27017)
-    client = MongoClient(config_parser.get_mongo_cloud_conn(), tlsCAFile=certifi.where())
+    client = MongoClient(host="localhost", port=27017)
+    #client = MongoClient(config_parser.get_mongo_cloud_conn(), tlsCAFile=certifi.where())
     db = client.recetas
     recetas = db.Recetas
 
