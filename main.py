@@ -135,6 +135,16 @@ def exportarEx():
     output.headers["Content-Type"] = "application/octet-stream"
     return output
 
+@app.route('/exportar', methods=['GET'])
+def exportar():
+    json = service.findAll()
+
+    excel = service.exportarExcel(json)
+    output = make_response(excel.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=recetas.xlsx"
+    output.headers["Content-Type"] = "application/octet-stream"
+    return output
+
 @app.route('/acerca', methods=['GET'])
 def acerca():
     return render_template('acerca.html')
