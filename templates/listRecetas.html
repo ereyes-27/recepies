@@ -30,7 +30,30 @@
 
       <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-
+      <script>
+         function exportar() {
+             var url = "/exportar";
+ 
+             //Create XMLHTTP Request.
+             var req = new XMLHttpRequest();
+             req.open("GET", url, true);
+             req.responseType = "blob";
+             req.onload = function (e) {
+                 var blob = e.currentTarget.response;
+                 var contentDispo = e.currentTarget.getResponseHeader('Content-Disposition');
+                 // https://stackoverflow.com/a/23054920/
+                 var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
+                 saveBlob(blob, fileName);
+             };
+             req.send();
+         }
+         function saveBlob(blob, fileName) {
+             var a = document.createElement('a');
+             a.href = window.URL.createObjectURL(blob);
+             a.download = fileName;
+             a.dispatchEvent(new MouseEvent('click'));
+         }
+     </script>
 </head>
 <body>
 	<header>
@@ -89,6 +112,13 @@
 			<h2 class="cont">Recetas</h2>
             <div class="container">
 			<table id="myTable" border ="0" class="main_form" >
+            <tr>
+                    <td colspan="3">
+                        <span style="float: right; cursor: pointer;" class="yellow" onclick="exportar()">
+                            Exportar
+                        </span>
+                    </td>
+                </tr>
             {% for ttl in headings %}
                 <td><center><b> {{ ttl }} </b></center></td>
             {% endfor %}
