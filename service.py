@@ -27,13 +27,6 @@ class Service:
       self.dao = RecetaDAO()
       self.mapper = recetaMapper()
 
-   def insertar_service(self, recetaForm):
-      print("clase service")
-      print("invocando mapper "+recetaForm['nombre'])
-      recetaDTO = self.mapper.map(recetaForm)
-      print("invocando DAO insert")
-      self.dao.insert(recetaDTO.get_receta_json())
-
    def find_all(self):
       return self.dao.find_all()
 
@@ -77,12 +70,12 @@ class Service:
       #Consulta a chatgpt y formatea a json
       try:
          JSON = extractor.getJSonFromReceta(url, texto, nomImagen)
-         self.inserta_receta(JSON)
+         self.dao.insert(JSON)
          self.exporta_a_excel(JSON, False)
+         self.dao.exporta_db()
       except Exception as err:
          print(f"Error al extraer la receta {str(err)}")
          return(False, "El video parese ser muy largo, intente con otro.")
-
       return (True,"")
 
    def exporta_a_excel(self, json, multiple=True):
@@ -93,20 +86,15 @@ class Service:
       exportar.to_excel(buffer, index=False)
       return buffer
 
-   def inserta_receta(self, json):
-      self.dao.insert(json)
-      
    def find_by_id(self, id):
       return self.dao.get_by_id(id)
 
    def update_receta(self, form):
       try:
-         #print("Capa SERVICE")
-         #print(form)
          json = self.mapper.mapToJson(form)
          print("resultado del mapper: ", json[0], json[1])
          self.dao.update_receta(json[0], json[1])
-         #print(json)
+         self.dao.exporta_db()
          return True
       except Exception as error:
          print("Error actualizando receta:", str(error))
@@ -134,24 +122,21 @@ class Service:
       #Consulta a chatgpt y formatea a json
       try:
          JSON = extractor.getJSonFromReceta(texto, nomImagen)
-         self.inserta_receta(JSON)
+         self.dao.insert(JSON)
+         self.dao.exporta_db()
       except Exception as err:
          print(f"Error llamando a ChatGPT: {str(err)}")
          exc_type, exc_obj, exc_tb = sys.exc_info()
          fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
          print(exc_type, fname, exc_tb.tb_lineno)
          return(False,"Hubo una excepción en la extracción de la receta, favor de intentar más tarde ")
-
       return (True,"")
 
    def procesa_json_para_excel(self, json_data):
-      print(json_data)
-
       excel_json = {
          'nombre': [json_data["nombre"]],
          'pasos': [json_data["pasos"]],
          'ingredientes': [json_data["ingredientes"]],
          'url': [json_data["origen"]]
          }
-      print(excel_json)
       return excel_json
